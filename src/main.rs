@@ -17,7 +17,7 @@ fn commit() {
     let result = workspace.process_file(&Path::new("/Users/Matt/rugut/vice-v2.css"));
     match result {
         Ok(hash) => println!("HASH {}", hash),
-        Err(_) => panic!("something went wrong")
+        Err(a) => panic!("something went wrong {:?}", a)
     }
 }
 
