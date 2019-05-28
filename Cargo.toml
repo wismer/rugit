@@ -5,3 +5,5 @@ authors = ["Matt Long <matthewhl@gmail.com>"]
 edition = "2018"
 
 [dependencies]
+sha1 = "0.6.0"
+flate2 = "1.0.7"
