@@ -12,15 +12,17 @@ pub mod workspace {
 	}
 
 	impl Workspace {
-		pub fn current_directory(&self) {
-			println!("{:?}", &self.path);
+		pub fn commit_files(&self) -> Result<(), std::io::Error> {
+			let dir = std::env::current_dir()?;
+			for entry in fs::read_dir(&dir.as_path())? {
+				let subpath = entry?;
+				let _ = self.process_file(&subpath.path());
+			}
+
+			Ok(())
 		}
 
-		pub fn to_path(&self) -> &Path {
-			Path::new(&self.path)
-		}
-
-		pub fn process_file(&self, filepath: &Path) -> Result<String, std::io::Error> {
+		pub fn process_file(&self, filepath: &Path) -> Result<(), std::io::Error> {
 			let mut buffer = String::new();
 			buffer.push_str("object ");
 			println!("ATTEMPT TO READ");
@@ -42,7 +44,7 @@ pub mod workspace {
 
 			self.write_object_path(&sha_hash, bytes)?;
 
-			Ok(sha_hash)
+			Ok(())
 		}
 
 		pub fn files(&self) -> std::io::Result<()> {
@@ -83,6 +85,7 @@ pub mod workspace {
 			}
 
 			path_buf.push(hash_filename);
+			println!("WRITTEN TO {:?}", path_buf);
 			let _ = fs::write(path_buf, contents);
 
 			Ok(())

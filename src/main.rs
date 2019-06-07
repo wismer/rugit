@@ -1,6 +1,6 @@
 use std::env;
 use std::fs;
-use std::path::{PathBuf, Path};
+use std::path::{PathBuf};
 extern crate sha1;
 
 
@@ -10,13 +10,14 @@ mod rugit;
 use rugit::workspace::Workspace;
 
 fn commit() {
+    // let cwd = std::env::current_dir().ok();
     let workspace = Workspace {
         path: String::from("/Users/Matt/rugut")
     };
 
-    let result = workspace.process_file(&Path::new("/Users/Matt/rugut/vice-v2.css"));
+    let result = workspace.commit_files();
     match result {
-        Ok(hash) => println!("HASH {}", hash),
+        Ok(_) => println!("SUCCESS"),
         Err(a) => panic!("something went wrong {:?}", a)
     }
 }
